@@ -8,8 +8,8 @@ import numpy as np
 ## EXAMPLE VECTOR FIELDS
 ## ###############################################################
 def vFieldLotkaVolterra(size):
-  bounds_rows = (-10, 10)
-  bounds_cols = (-10, 10)
+  bounds_rows = (-5, 10)
+  bounds_cols = (-5, 10)
   coords_row = np.linspace(bounds_rows[0], bounds_rows[1], size)
   coords_col = np.linspace(bounds_cols[0], bounds_cols[1], size)
   mg_x, mg_y = np.meshgrid(coords_col, coords_row, indexing="xy")
@@ -21,7 +21,7 @@ def vFieldLotkaVolterra(size):
   vfield = np.array([vcomp_rows, vcomp_cols])
   return {
     "vfield"       : vfield,
-    "streamlength" : 100,
+    "streamlength" : size // 4,
     "num_rows"     : size,
     "num_cols"     : size,
     "bounds_rows"  : bounds_rows,

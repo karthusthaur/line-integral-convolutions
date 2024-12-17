@@ -21,7 +21,7 @@ def timeFunc(func):
     return result
   return wrapper
 
-def filterHighPass(sfield, sigma=2.0):
+def filterHighPass(sfield, sigma=3.0):
   lowpass = ndimage.gaussian_filter(sfield, sigma)
   gauss_highpass = sfield - lowpass
   return gauss_highpass

@@ -1,6 +1,7 @@
+line_integral_convolution.egg-info/
 build/
 dist/
 venv/
-line_integral_convolution.egg-info/
 
-lic/__pycache__
+.DS_Store
+src/__pycache__

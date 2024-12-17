@@ -13,20 +13,19 @@ from src import lic
 
 
 ## ###############################################################
-## PROGRAM PARAMETERS
-## ###############################################################
-BOOL_DEBUG    = 0
-BOOL_FILTER   = 1
-BOOL_EQUALISE = 1
-
-
-## ###############################################################
 ## MAIN PROGRAM
 ## ###############################################################
-def main(size, num_iterations=1, num_repetitions=1):
+def main(
+    size,
+    num_iterations  = 1,
+    num_repetitions = 1,
+    bool_filter     = True,
+    bool_equalise   = True,
+    bool_debug      = False,
+  ):
   print("Started running demo script...")
   ## create figure canvas
-  fig, _ = plt.subplots(figsize=(6,6), )
+  fig, _ = plt.subplots(figsize=(6,6))
   ## define domain
   print("Initialising quantities...")
   dict_field   = fields.vFieldLotkaVolterra(size)
@@ -41,8 +40,8 @@ def main(size, num_iterations=1, num_repetitions=1):
   print("Computing LIC...")
   for _ in range(num_repetitions):
     for _ in range(num_iterations): sfield = lic.computeLIC(vfield, sfield, streamlength)
-    if BOOL_FILTER:                 sfield = utils.filterHighPass(sfield)
-  if BOOL_EQUALISE:                 sfield = equalize_adapthist(sfield)
+    if bool_filter:                 sfield = utils.filterHighPass(sfield, sigma=8.0)
+  if bool_equalise:                 sfield = equalize_adapthist(sfield)
   ## visualise the LIC
   print("Plotting data...")
   fig, _ = utils.plotLIC(
@@ -50,12 +49,12 @@ def main(size, num_iterations=1, num_repetitions=1):
     vfield      = vfield,
     bounds_rows = bounds_rows,
     bounds_cols = bounds_cols,
-    bool_debug  = BOOL_DEBUG
+    bool_debug  = bool_debug
   )
   ## save and close the figure
   print("Saving figure...")
   fig_name = f"example_lic.png"
-  fig.savefig(fig_name, dpi=200, bbox_inches="tight")
+  fig.savefig(fig_name, dpi=300, bbox_inches="tight")
   plt.close(fig)
   print("Saved:", fig_name)
   return 1
@@ -66,9 +65,12 @@ def main(size, num_iterations=1, num_repetitions=1):
 ## ###############################################################
 if __name__ == "__main__":
   main(
-    size            = 500,
-    num_iterations  = 3,
-    num_repetitions = 3
+    size            = 2000,
+    num_iterations  = 2,
+    num_repetitions = 2,
+    bool_filter     = 1,
+    bool_equalise   = 1,
+    bool_debug      = 0,
   )
   sys.exit(0)
 
