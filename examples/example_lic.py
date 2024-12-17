@@ -65,9 +65,9 @@ def main(
 ## ###############################################################
 if __name__ == "__main__":
   main(
-    size            = 2000,
-    num_iterations  = 2,
-    num_repetitions = 2,
+    size            = 1000,
+    num_iterations  = 3,
+    num_repetitions = 3,
     bool_filter     = 1,
     bool_equalise   = 1,
     bool_debug      = 0,
