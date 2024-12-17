@@ -1,10 +1,10 @@
 # Line Integral Convolution (LIC)
 
-LICs are an amazing way to visualise 2D vector fields, and are widely used in many different fields (e.g., weather modelling, plasma physics), however I couldn't find a simple, up-to-date implementation, so I wrote my own. I hope you can find it useful.
+LICs are an amazing way to visualise 2D vector fields, and are widely used in many different fields (e.g., weather modelling, plasma physics), however I couldn't find a simple, up-to-date implementation, so I wrote my own. I hope it can also help you on your vector field journey!
 
 Here, you can see the LIC applied to two different vector fields:
-- Left: Lotka-Volterra equations
-- Right: Gaussian random field where both components are independent
+- Left: modified Lotka-Volterra equations
+- Right: Gaussian random vector field
 
 <div style="display: flex; justify-content: space-between;">
   <img src="./examples/example_lic_1.png" width="49%" />
