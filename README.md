@@ -44,7 +44,7 @@ python examples/example_lic.py
 
 ## Acknowledgements
 
-Special thanks to James Beattie (@AstroJames) for highlighting how iteration, high-pass filtering, and histogram normalisation improves the final result!
+Special thanks to Dr. James Beattie (@AstroJames) for highlighting that iteration, high-pass filtering, and histogram normalisation improves the final result!
 
 ## File structure
 
