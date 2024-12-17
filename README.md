@@ -2,7 +2,7 @@
 
 LICs are an amazing way to visualise 2D vector fields, and are widely used in many different fields (e.g., weather modelling, plasma physics, etc.), however I couldn't find a simple, up-to-date implementation, so I wrote my own. I hope it can now also help you on your own vector field fueled journey!
 
-Here, you can see the LIC applied to two different vector fields:
+Here is an example of the LIC code applied to two different vector fields:
 - Left: modified Lotka-Volterra equations
 - Right: Gaussian random vector field
 
