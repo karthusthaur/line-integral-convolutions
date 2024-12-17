@@ -1,0 +1,6 @@
+build/
+dist/
+venv/
+line_integral_convolution.egg-info/
+
+lic/__pycache__
