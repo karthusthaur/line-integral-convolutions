@@ -42,7 +42,11 @@ Run the demo script `examples/example_lic.py` which demonstrates how the LIC cod
 python examples/example_lic.py
 ```
 
-## File Structure
+## Acknowledgements
+
+Special thanks to James Beattie (@AstroJames) for highlighting how iteration, high-pass filtering, and histogram normalisation improves the final result!
+
+## File structure
 
 ```bash
 line-integral-convolution/
