@@ -1,10 +1,10 @@
 # Line Integral Convolution (LIC)
 
-LICs are an amazing way to visualise 2D vector fields, and are widely used in many different fields (e.g., weather modelling, plasma physics), however I couldn't find a simple, up-to-date implementation, so I wrote my own. I hope you can find it useful.
+LICs are an amazing way to visualise 2D vector fields, and are widely used in many different fields (e.g., weather modelling, plasma physics, etc.), however I couldn't find a simple, up-to-date implementation, so I wrote my own. I hope it can now also help you on your own vector field fueled journey!
 
-Here, you can see the LIC applied to two different vector fields:
-- Left: Lotka-Volterra equations
-- Right: Gaussian random field where both components are independent
+Here is an example of the LIC code applied to two different vector fields:
+- Left: modified Lotka-Volterra equations
+- Right: Gaussian random vector field
 
 <div style="display: flex; justify-content: space-between;">
   <img src="./examples/example_lic_1.png" width="49%" />
@@ -42,7 +42,11 @@ Run the demo script `examples/example_lic.py` which demonstrates how the LIC cod
 python examples/example_lic.py
 ```
 
-## File Structure
+## Acknowledgements
+
+Special thanks to Dr. James Beattie (@AstroJames) for highlighting that iteration, high-pass filtering, and histogram normalisation improves the final result!
+
+## File structure
 
 ```bash
 line-integral-convolution/
