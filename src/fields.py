@@ -1,3 +1,8 @@
+## This file is part of the "line-integral-convolutions".
+## Copyright (c) 2024 Neco Kriel.
+## Licensed under the MIT License. See LICENSE for details.
+
+
 ## ###############################################################
 ## IMPORT MODULES
 ## ###############################################################
