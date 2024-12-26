@@ -28,7 +28,7 @@ def main(
   fig, _ = plt.subplots(figsize=(6,6))
   ## define domain
   print("Initialising quantities...")
-  dict_field   = fields.vFieldLotkaVolterra(size)
+  dict_field   = fields.vfield_lotka_volterra(size)
   vfield       = dict_field["vfield"]
   streamlength = dict_field["streamlength"]
   num_rows     = dict_field["num_rows"]
@@ -39,12 +39,12 @@ def main(
   ## apply the LIC a few times: equivelant to painting over with a few brush strokes
   print("Computing LIC...")
   for _ in range(num_repetitions):
-    for _ in range(num_iterations): sfield = lic.computeLIC(vfield, sfield, streamlength)
-    if bool_filter:                 sfield = utils.filterHighPass(sfield, sigma=8.0)
+    for _ in range(num_iterations): sfield = lic.compute_lic(vfield, sfield, streamlength)
+    if bool_filter:                 sfield = utils.filter_high_pass(sfield, sigma=8.0)
   if bool_equalise:                 sfield = equalize_adapthist(sfield)
   ## visualise the LIC
   print("Plotting data...")
-  fig, _ = utils.plotLIC(
+  fig, _ = utils.plot_lic(
     sfield      = sfield,
     vfield      = vfield,
     bounds_rows = bounds_rows,

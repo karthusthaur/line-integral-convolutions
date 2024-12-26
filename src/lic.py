@@ -5,21 +5,21 @@ import numpy as np
 
 from numba import njit, prange
 
-from src.utils import timeFunc
+from src.utils import time_func
 
 
 ## ###############################################################
 ## LIC IMPLEMENTATION
 ## ###############################################################
 @njit
-def taperPixelContribution(
+def taper_pixel_contribution(
     streamlength: int,
     step_index: int
   ) -> float:
   return 0.5 * (1 + np.cos(np.pi * step_index / streamlength))
 
 @njit
-def advectStreamline(
+def advect_streamline(
     vfield: np.ndarray,
     sfield_in: np.ndarray,
     start_row: int,
@@ -58,13 +58,13 @@ def advectStreamline(
       row_float = max(0.0, min(row_float, num_rows - 1))
       col_float = max(0.0, min(col_float, num_cols - 1))
     ## weight the contribution of the current pixel based on its distance from the start of the streamline
-    contribution_weight = taperPixelContribution(streamlength, step)
+    contribution_weight = taper_pixel_contribution(streamlength, step)
     weighted_sum += contribution_weight * sfield_in[row_int, col_int]
     total_weight += contribution_weight
   return weighted_sum, total_weight
 
 @njit(parallel=True)
-def _computeLIC(
+def _compute_lic(
     vfield: np.ndarray,
     sfield_in: np.ndarray,
     sfield_out: np.ndarray, 
@@ -74,15 +74,15 @@ def _computeLIC(
   ) -> np.ndarray:
   for row in prange(num_rows):
     for col in range(num_cols):
-      forward_sum,  forward_total  = advectStreamline(vfield, sfield_in, row, col, +1, streamlength)
-      backward_sum, backward_total = advectStreamline(vfield, sfield_in, row, col, -1, streamlength)
+      forward_sum,  forward_total  = advect_streamline(vfield, sfield_in, row, col, +1, streamlength)
+      backward_sum, backward_total = advect_streamline(vfield, sfield_in, row, col, -1, streamlength)
       total_sum    = forward_sum   + backward_sum
       total_weight = forward_total + backward_total
       sfield_out[row, col] = total_sum / total_weight if total_weight > 0.0 else 0.0
   return sfield_out
 
-@timeFunc
-def computeLIC(
+@time_func
+def compute_lic(
     vfield,
     sfield_in: np.ndarray = None,
     streamlength: int = None
@@ -91,7 +91,7 @@ def computeLIC(
   sfield_out = np.zeros((num_rows, num_cols), dtype=np.float32)
   if sfield_in is None: sfield_in = np.random.rand(num_rows, num_cols).astype(np.float32)
   if streamlength is None: streamlength = 10
-  return _computeLIC(vfield, sfield_in, sfield_out, streamlength, num_rows, num_cols)
+  return _compute_lic(vfield, sfield_in, sfield_out, streamlength, num_rows, num_cols)
 
 
 ## END OF LIC IMPLEMENTATION

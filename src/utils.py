@@ -12,7 +12,7 @@ from matplotlib.colors import to_rgba
 ## ###############################################################
 ## START OF UTILITY FUNCTIONS
 ## ###############################################################
-def timeFunc(func):
+def time_func(func):
   def wrapper(*args, **kwargs):
     time_start = time.time()
     result = func(*args, **kwargs)
@@ -21,12 +21,12 @@ def timeFunc(func):
     return result
   return wrapper
 
-def filterHighPass(sfield, sigma=3.0):
+def filter_high_pass(sfield, sigma=3.0):
   lowpass = ndimage.gaussian_filter(sfield, sigma)
   gauss_highpass = sfield - lowpass
   return gauss_highpass
 
-def plotLIC(
+def plot_lic(
     sfield, vfield,
     bounds_rows = None,
     bounds_cols = None,

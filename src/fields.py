@@ -7,7 +7,7 @@ import numpy as np
 ## ###############################################################
 ## EXAMPLE VECTOR FIELDS
 ## ###############################################################
-def vFieldLotkaVolterra(size):
+def vfield_lotka_volterra(size):
   bounds_rows = (-5, 10)
   bounds_cols = (-5, 10)
   coords_row = np.linspace(bounds_rows[0], bounds_rows[1], size)
