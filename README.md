@@ -25,7 +25,7 @@ cd line-integral-convolution
 
 ```bash
 python -m venv venv
-source venv/bin/activate # on Windows, use venv\Scripts\activate
+source venv/bin/activate # on Windows: venv\Scripts\activate
 ```
 
 ### 3. Install dependencies:
