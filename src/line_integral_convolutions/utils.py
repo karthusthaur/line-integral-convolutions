@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 
 from scipy import ndimage
 from matplotlib.colors import to_rgba
+from skimage.exposure import equalize_adapthist
 
 
 ## ###############################################################
@@ -28,10 +29,34 @@ def time_func(func):
     return wrapper
 
 
-def filter_high_pass(sfield: np.ndarray, sigma: float = 3.0):
+def filter_highpass(sfield: np.ndarray, sigma: float = 3.0):
     lowpass = ndimage.gaussian_filter(sfield, sigma)
     gauss_highpass = sfield - lowpass
     return gauss_highpass
+
+
+def rescaled_equalize(
+    sfield: np.ndarray,
+    num_subregions_rows: int = 8,
+    num_subregions_cols: int = 8,
+    clip_intensity_gradient: float = 0.01,
+    num_intensity_bins: int = 150
+):
+    min_val = sfield.min()
+    max_val = sfield.max()
+    bool_rescale_needed = (max_val > 1.0) or (min_val < 0.0)
+    ## rescale values to enhance local contrast
+    ## note, output values are bound by [0, 1]
+    sfield = equalize_adapthist(
+        image=sfield,
+        kernel_size=(num_subregions_rows, num_subregions_cols),
+        clip_limit=clip_intensity_gradient,
+        nbins=num_intensity_bins,
+    )
+    ## rescale field back to its original value range
+    if bool_rescale_needed:
+        sfield = sfield * (max_val - min_val) + min_val
+    return sfield
 
 
 def plot_lic(
