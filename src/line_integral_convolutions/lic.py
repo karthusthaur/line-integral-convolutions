@@ -220,8 +220,8 @@ def compute_lic_with_postprocessing(
     num_iterations: int = 1,
     num_repetitions: int = 1,
     bool_filter: bool = True,
-    bool_equalize: bool = True,
     filter_sigma: float = 3.0,
+    bool_equalize: bool = True,
 ):
     """
     Iteratively computes the Line Integral Convolutions (LICs) for a given vector field with optional postprocessing steps (i.e., filtering and intensity binning). See the `compute_lic` function for more details on the core LIC computation.
@@ -252,11 +252,11 @@ def compute_lic_with_postprocessing(
     bool_filter : bool, optional, default=True
         If True, applies a high-pass filter after the LIC computation.
 
-    bool_equalize : bool, optional, default=True
-        If True, applies an intensity binning equalization at the end of the routine.
-
     filter_sigma : float, optional, default=3.0
         The standard deviation of the intensity values to Gaussian filter. Lower values tend to produce thinner tubes.
+
+    bool_equalize : bool, optional, default=True
+        If True, applies an intensity binning equalization at the end of the routine.
 
     Returns:
     --------
