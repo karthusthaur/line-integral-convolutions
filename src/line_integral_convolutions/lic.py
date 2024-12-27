@@ -25,7 +25,7 @@ def taper_pixel_contribution(streamlength: int, step_index: int) -> float:
     -----------
     streamlength : int
         Maximum length of a streamline.
-    
+
     step_index : int
         Index of the current step along the streamline.
 
@@ -114,7 +114,7 @@ def _compute_lic(
     bool_periodic_BCs: bool,
 ) -> np.ndarray:
     """
-    Computes the Line Integral Convolution (LIC) over the entire domain by advecting 
+    Computes the Line Integral Convolution (LIC) over the entire domain by advecting
     streamlines from each pixel in both forward and backward directions along the vector field.
     """
     for row in prange(num_rows):
@@ -230,31 +230,31 @@ def compute_lic_with_postprocessing(
     -----------
     vfield : np.ndarray
         3D array storing a 2D vector field with shape (num_vcomps=2, num_rows, num_cols). For 3D fields, provide a 2D slice.
-    
+
     sfield_in : np.ndarray, optional, default=None
         2D scalar field to be used for the LIC. If None, a random scalar field is generated.
-    
+
     streamlength : int, optional, default=None
         Length of LIC streamlines. If None, it defaults to 1/4 the smallest domain dimension.
-    
+
     seed_sfield : int, optional, default=42
         Random seed for generating the scalar field.
-    
+
     bool_periodic_BCs : bool, optional, default=True
         If True, periodic boundary conditions are applied; otherwise, uses open boundary conditions.
-    
+
     num_iterations : int, optional, default=1
         Number of times to repeat the LIC computation.
-    
+
     num_repetitions : int, optional, default=1
         Number of times to repeat the entire routine: LIC + highpass filter.
-    
+
     bool_filter : bool, optional, default=True
         If True, applies a high-pass filter after the LIC computation.
-    
+
     bool_equalize : bool, optional, default=True
         If True, applies an intensity binning equalization at the end of the routine.
-    
+
     filter_sigma : float, optional, default=3.0
         The standard deviation of the intensity values to Gaussian filter. Lower values tend to produce thinner tubes.
 

@@ -40,7 +40,7 @@ def rescaled_equalize(
     num_subregions_rows: int = 8,
     num_subregions_cols: int = 8,
     clip_intensity_gradient: float = 0.01,
-    num_intensity_bins: int = 150
+    num_intensity_bins: int = 150,
 ):
     min_val = sfield.min()
     max_val = sfield.max()
