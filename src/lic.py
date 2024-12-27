@@ -29,7 +29,7 @@ def advect_streamline(
     start_col: int,
     dir_sgn: int,
     streamlength: int,
-    bool_periodic_BCs: bool = True,
+    bool_periodic_BCs: bool,
 ) -> tuple:
     weighted_sum = 0.0
     total_weight = 0.0
@@ -82,14 +82,27 @@ def _compute_lic(
     streamlength: int,
     num_rows: int,
     num_cols: int,
+    bool_periodic_BCs: bool,
 ) -> np.ndarray:
     for row in prange(num_rows):
         for col in range(num_cols):
             forward_sum, forward_total = advect_streamline(
-                vfield, sfield_in, row, col, +1, streamlength
+                vfield=vfield,
+                sfield_in=sfield_in,
+                start_row=row,
+                start_col=col,
+                dir_sgn=+1,
+                streamlength=streamlength,
+                bool_periodic_BCs=bool_periodic_BCs,
             )
             backward_sum, backward_total = advect_streamline(
-                vfield, sfield_in, row, col, -1, streamlength
+                vfield=vfield,
+                sfield_in=sfield_in,
+                start_row=row,
+                start_col=col,
+                dir_sgn=-1,
+                streamlength=streamlength,
+                bool_periodic_BCs=bool_periodic_BCs,
             )
             total_sum = forward_sum + backward_sum
             total_weight = forward_total + backward_total
@@ -102,15 +115,33 @@ def _compute_lic(
 
 @time_func
 def compute_lic(
-    vfield: np.ndarray, sfield_in: np.ndarray = None, streamlength: int = None
+    vfield: np.ndarray,
+    sfield_in: np.ndarray = None,
+    streamlength: int = None,
+    seed_sfield: int = 42,
+    bool_periodic_BCs: bool = True,
 ):
+    assert vfield.ndim == 3, f"vfield must have 3 dimensions, but got {vfield.ndim}."
     num_comps, num_rows, num_cols = vfield.shape
+    assert (
+        num_comps == 2
+    ), f"vfield must have 2 components (in the first dimension), but got {num_comps}."
     sfield_out = np.zeros((num_rows, num_cols), dtype=np.float32)
     if sfield_in is None:
+        if seed_sfield is not None:
+            np.random.seed(seed_sfield)
         sfield_in = np.random.rand(num_rows, num_cols).astype(np.float32)
     if streamlength is None:
-        streamlength = 10
-    return _compute_lic(vfield, sfield_in, sfield_out, streamlength, num_rows, num_cols)
+        streamlength = min(num_rows, num_cols) // 4
+    return _compute_lic(
+        vfield=vfield,
+        sfield_in=sfield_in,
+        sfield_out=sfield_out,
+        streamlength=streamlength,
+        num_rows=num_rows,
+        num_cols=num_cols,
+        bool_periodic_BCs=bool_periodic_BCs,
+    )
 
 
 ## END OF LIC IMPLEMENTATION
