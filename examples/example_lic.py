@@ -17,9 +17,11 @@ from line_integral_convolutions import fields, lic, utils
 ## ###############################################################
 def main(
     size: int,
+    func_vfield,
     num_iterations: int = 1,
     num_repetitions: int = 1,
     bool_filter: bool = True,
+    filter_sigma: float = 3.0,
     bool_equalize: bool = True,
     bool_debug: bool = False,
 ):
@@ -28,7 +30,7 @@ def main(
     fig, _ = plt.subplots(figsize=(6, 6))
     ## define domain
     print("Initialising quantities...")
-    dict_field = fields.vfield_lotka_volterra(size)
+    dict_field = func_vfield(size)
     vfield = dict_field["vfield"]
     streamlength = dict_field["streamlength"]
     bounds_rows = dict_field["bounds_rows"]
@@ -41,6 +43,7 @@ def main(
         num_iterations=num_iterations,
         num_repetitions=num_repetitions,
         bool_filter=bool_filter,
+        filter_sigma=filter_sigma,
         bool_equalize=bool_equalize,
     )
     ## visualise the LIC
@@ -58,7 +61,6 @@ def main(
     fig.savefig(fig_name, dpi=300, bbox_inches="tight")
     plt.close(fig)
     print("Saved:", fig_name)
-    return 1
 
 
 ## ###############################################################
@@ -67,9 +69,11 @@ def main(
 if __name__ == "__main__":
     main(
         size=500,
+        func_vfield=fields.vfield_swirls,
         num_iterations=3,
         num_repetitions=3,
         bool_filter=True,
+        filter_sigma=3.0,
         bool_equalize=True,
         bool_debug=False,
     )
