@@ -18,14 +18,22 @@ Here is an example of the LIC code applied to two different vector fields:
 
 ```bash
 git clone git@github.com:AstroKriel/line-integral-convolutions.git
-cd line-integral-convolution
+cd line-integral-convolutions
 ```
 
 ### 2. Set up a virtual environment (optional but recommended):
 
+It is recommended to use a virtual environment to manage the project's dependencies. Before running any code or installing dependencies, activate the virtual environment via the following commands:
+
 ```bash
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate # on Windows: venv\Scripts\activate
+```
+
+Once the virtual environment is activated, you can run the code or use the package. When you're done, deactivate the environment by running:
+
+```bash
+deactivate
 ```
 
 ### 3. Install dependencies:
@@ -34,12 +42,23 @@ source venv/bin/activate # on Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Try out the demo-script
+### 4. Install the LIC package (optional, for using as a library):
+
+To install the package locally for development or use in other Python scripts, run the following command:
+
+```bash
+Copy code
+pip install -e .
+```
+
+This will install the package in "editable" mode, allowing you to make changes to the code and have them reflected without needing to reinstall the package each time.
+
+### 5. Try out the demo-script
 
 Run the demo script `examples/example_lic.py` which demonstrates how the LIC code can be applied to a vector field (the example file uses the Lotka-Volterra system). You can experiment by modifying the script or play around by adding your own vector fields!
 
 ```bash
-python examples/example_lic.py
+python3 examples/example_lic.py
 ```
 
 ## Acknowledgements
@@ -63,8 +82,6 @@ line-integral-convolutions/            # Root project directory
 ├── setup.py                           # Setup script to install and package the project
 ├── LICENSE                            # License file describing the terms of use for the project
 └── README.md                          # Project documentation file (this file)
-
-
 ```
 
 ## License
