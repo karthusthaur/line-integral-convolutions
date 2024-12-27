@@ -62,7 +62,7 @@ python3 examples/example_lic.py
 
 ## Acknowledgements
 
-Special thanks to Dr. James Beattie (@AstroJames) for highlighting that iteration, high-pass filtering, and histogram normalisation improves the final result. Also, thanks to Dr. Philip Mocz (@pmocz) for his helpful suggestions in restructuring and improving the codebase.
+Special thanks to Dr. James Beattie ([@AstroJames](https://github.com/AstroJames)) for highlighting that iteration, high-pass filtering, and histogram normalisation improves the final result. Also, thanks to Dr. Philip Mocz ([@pmocz](https://github.com/pmocz)) for his helpful suggestions in restructuring and improving the codebase.
 
 ## File structure
 
