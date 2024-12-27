@@ -47,7 +47,6 @@ pip install -r requirements.txt
 To install the package locally for development or use in other Python scripts, run the following command:
 
 ```bash
-Copy code
 pip install -e .
 ```
 
@@ -63,7 +62,7 @@ python3 examples/example_lic.py
 
 ## Acknowledgements
 
-Special thanks to Dr. James Beattie (@AstroJames) for highlighting that iteration, high-pass filtering, and histogram normalisation improves the final result!
+Special thanks to Dr. James Beattie (@AstroJames) for highlighting that iteration, high-pass filtering, and histogram normalisation improves the final result. Also, thanks to Dr. Philip Mocz (@pmocz) for his helpful suggestions in restructuring and improving the codebase.
 
 ## File structure
 
