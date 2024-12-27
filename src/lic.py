@@ -65,8 +65,9 @@ def advect_streamline(
             row_float = (row_float + num_rows) % num_rows
             col_float = (col_float + num_cols) % num_cols
         else:
-            row_float = max(0.0, min(row_float, num_rows - 1))
-            col_float = max(0.0, min(col_float, num_cols - 1))
+            ## open boundaries: terminate if streamline exits domain
+            if not ((0 <= row_float < num_rows) and (0 <= col_float < num_cols)):
+                break
         ## weight the contribution of the current pixel based on its distance from the start of the streamline
         contribution_weight = taper_pixel_contribution(streamlength, step)
         weighted_sum += contribution_weight * sfield_in[row_int, col_int]
@@ -121,16 +122,50 @@ def compute_lic(
     seed_sfield: int = 42,
     bool_periodic_BCs: bool = True,
 ):
+    """
+    Computes the Line Integral Convolution (LIC) for a given vector field.
+
+    This function generates a LIC image using the input vector field (`vfield`) and an optional background scalar field (`sfield_in`). If no scalar field is provided, a random scalar field is generated, visualising the vector field on its own. If a background scalar field is provided, the LIC is computed over it.
+
+    The `streamlength` parameter controls the length of the LIC streamlines. For best results, set it close to the correlation length of the vector field (often known a priori). If not specified, it defaults to 1/4 of the smallest domain dimension.
+
+    Parameters:
+    -----------
+    vfield : np.ndarray
+        A 3D array representing a 2D vector field with shape (2, num_rows, num_cols). The first dimension holds the vector components, and the remaining two dimensions define the domain size. For 3D fields, provide a 2D slice.
+
+    sfield_in : np.ndarray, default=None
+        A 2D scalar field to be used for the LIC. If None, a random scalar field is generated.
+
+    streamlength : int, default=None
+        The length of the LIC streamlines. If None, it defaults to 1/4 the smallest domain dimension.
+
+    seed_sfield : int, default=42
+        The random seed for generating the scalar field.
+
+    bool_periodic_BCs : bool, default=True
+        If True, periodic boundary conditions are applied; otherwises, uses open boundary conditions.
+
+    Returns:
+    --------
+    np.ndarray
+        A 2D array storing the output LIC image with shape (num_rows, num_cols).
+    """
     assert vfield.ndim == 3, f"vfield must have 3 dimensions, but got {vfield.ndim}."
-    num_comps, num_rows, num_cols = vfield.shape
+    num_vcomps, num_rows, num_cols = vfield.shape
     assert (
-        num_comps == 2
-    ), f"vfield must have 2 components (in the first dimension), but got {num_comps}."
+        num_vcomps == 2
+    ), f"vfield must have 2 components (in the first dimension), but got {num_vcomps}."
     sfield_out = np.zeros((num_rows, num_cols), dtype=np.float32)
     if sfield_in is None:
         if seed_sfield is not None:
             np.random.seed(seed_sfield)
         sfield_in = np.random.rand(num_rows, num_cols).astype(np.float32)
+    else:
+        assert sfield_in.shape == (num_rows, num_cols), (
+            f"sfield_in must have dimensions ({num_rows}, {num_cols}), "
+            f"but received it with dimensions {sfield_in.shape}."
+        )
     if streamlength is None:
         streamlength = min(num_rows, num_cols) // 4
     return _compute_lic(
