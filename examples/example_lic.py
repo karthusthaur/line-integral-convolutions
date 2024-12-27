@@ -7,14 +7,9 @@
 ## MODULES
 ## ###############################################################
 import sys
-import numpy as np
 import matplotlib.pyplot as plt
 
-from skimage.exposure import equalize_adapthist
-
-from src import fields
-from src import utils
-from src import lic
+from line_integral_convolutions import fields, lic, utils
 
 
 ## ###############################################################
@@ -25,7 +20,7 @@ def main(
     num_iterations: int = 1,
     num_repetitions: int = 1,
     bool_filter: bool = True,
-    bool_equalise: bool = True,
+    bool_equalize: bool = True,
     bool_debug: bool = False,
 ):
     print("Started running demo script...")
@@ -36,20 +31,18 @@ def main(
     dict_field = fields.vfield_lotka_volterra(size)
     vfield = dict_field["vfield"]
     streamlength = dict_field["streamlength"]
-    num_rows = dict_field["num_rows"]
-    num_cols = dict_field["num_cols"]
     bounds_rows = dict_field["bounds_rows"]
     bounds_cols = dict_field["bounds_cols"]
-    sfield = np.random.rand(num_rows, num_cols)  # random background
     ## apply the LIC a few times: equivelant to painting over with a few brush strokes
     print("Computing LIC...")
-    for _ in range(num_repetitions):
-        for _ in range(num_iterations):
-            sfield = lic.compute_lic(vfield, sfield, streamlength)
-        if bool_filter:
-            sfield = utils.filter_high_pass(sfield, sigma=8.0)
-    if bool_equalise:
-        sfield = equalize_adapthist(sfield)
+    sfield = lic.compute_lic_with_postprocessing(
+        vfield=vfield,
+        streamlength=streamlength,
+        num_iterations=num_iterations,
+        num_repetitions=num_repetitions,
+        bool_filter=bool_filter,
+        bool_equalize=bool_equalize,
+    )
     ## visualise the LIC
     print("Plotting data...")
     fig, _ = utils.plot_lic(
@@ -73,12 +66,12 @@ def main(
 ## ###############################################################
 if __name__ == "__main__":
     main(
-        size=1000,
+        size=500,
         num_iterations=3,
         num_repetitions=3,
-        bool_filter=1,
-        bool_equalise=1,
-        bool_debug=0,
+        bool_filter=True,
+        bool_equalize=True,
+        bool_debug=False,
     )
     sys.exit(0)
 
