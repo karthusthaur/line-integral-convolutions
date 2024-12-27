@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="line-integral-convolution",
+    name="line-integral-convolutions",
     version="1.0.0",
     description="A script showcasing my implementation for computing line integral convolution.",
     author="Neco Kriel",

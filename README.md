@@ -49,19 +49,22 @@ Special thanks to Dr. James Beattie (@AstroJames) for highlighting that iteratio
 ## File structure
 
 ```bash
-line-integral-convolution/
-├── src/                 # Core package
-│   ├── __init__.py      # Package initialization
-│   ├── fields.py        # Vector field generation
-│   ├── lic.py           # LIC computation
-│   ├── utils.py         # Utility functions
-│   └── visualization.py # Plotting functions
-├── examples/            # Example scripts
-│   └── example_lic.py   # Demonstrates LIC usage
-├── requirements.txt     # Dependencies for the project
-├── setup.py             # Installation and package setup
-├── LICENSE              # Project license
-└── README.md            # Project documentation (this file)
+line-integral-convolutions/            # Root project directory
+├── src/                               # Core source code for the package
+│   └── line_integral_convolutions/    # Python package containing the main functionality
+│       ├── __init__.py                # Initialization file for the package
+│       ├── fields.py                  # Code for generating vector fields
+│       ├── lic.py                     # Main functionality for Line Integral Convolution (LIC)
+│       ├── utils.py                   # Utility functions used across the project
+│       └── visualization.py           # Code for plotting and visualizing LIC results
+├── examples/                          # Example scripts demonstrating how to use the package
+│   └── example_lic.py                 # An example script showing how to run LIC computations
+├── requirements.txt                   # Lists the dependencies required to run the project
+├── setup.py                           # Setup script to install and package the project
+├── LICENSE                            # License file describing the terms of use for the project
+└── README.md                          # Project documentation file (this file)
+
+
 ```
 
 ## License
