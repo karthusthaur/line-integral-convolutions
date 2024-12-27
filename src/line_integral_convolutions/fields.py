@@ -52,6 +52,7 @@ def vfield_flowers(size: int):
         "bounds_cols": bounds_cols,
     }
 
+
 def vfield_circles(size: int):
     bounds_rows = (-10, 10)
     bounds_cols = (-10, 10)
@@ -69,6 +70,7 @@ def vfield_circles(size: int):
         "bounds_rows": bounds_rows,
         "bounds_cols": bounds_cols,
     }
+
 
 def vfield_swirls(size: int):
     bounds_rows = (-10, 10)
