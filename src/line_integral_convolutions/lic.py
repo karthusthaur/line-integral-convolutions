@@ -36,9 +36,37 @@ def taper_pixel_contribution(streamlength: int, step_index: int) -> float:
     """
     return 0.5 * (1 + np.cos(np.pi * step_index / streamlength))
 
+
 @njit
-def interpolate_nearest_neighbor(vfield, row, col):
-    
+def interpolate_bilinear(
+    vfield: np.ndarray, row: float, col: float
+) -> tuple[float, float]:
+    """
+    Bilinear interpolation on the vector field at a non-integer position (row, col).
+    """
+    row_low = int(np.floor(row))
+    col_low = int(np.floor(col))
+    row_high = min(row_low + 1, vfield.shape[1] - 1)
+    col_high = min(col_low + 1, vfield.shape[2] - 1)
+    ## weight based on distance from pixel edge
+    weight_row_high = row - row_low
+    weight_col_high = col - col_low
+    weight_row_low = 1 - weight_row_high
+    weight_col_low = 1 - weight_col_high
+    interpolated_vfield_comp_col = (
+        vfield[0, row_low, col_low] * weight_row_low * weight_col_low
+        + vfield[0, row_low, col_high] * weight_row_low * weight_col_high
+        + vfield[0, row_high, col_low] * weight_row_high * weight_col_low
+        + vfield[0, row_high, col_high] * weight_row_high * weight_col_high
+    )
+    interpolated_vfield_comp_row = (
+        vfield[1, row_low, col_low] * weight_row_low * weight_col_low
+        + vfield[1, row_low, col_high] * weight_row_low * weight_col_high
+        + vfield[1, row_high, col_low] * weight_row_high * weight_col_low
+        + vfield[1, row_high, col_high] * weight_row_high * weight_col_high
+    )
+    ## remember (x,y) -> (col, row)
+    return interpolated_vfield_comp_col, interpolated_vfield_comp_row
 
 
 @njit
@@ -50,7 +78,7 @@ def advect_streamline(
     dir_sgn: int,
     streamlength: int,
     bool_periodic_BCs: bool,
-) -> tuple:
+) -> tuple[float, float]:
     """
     Computes the intensity of a pixel (start_row, start_col) by summing the weighted contributions of pixels along a streamline stemming from it.
 
@@ -70,8 +98,13 @@ def advect_streamline(
     for step in range(streamlength):
         row_int = int(np.floor(row_float))
         col_int = int(np.floor(col_float))
-        vfield_comp_col = dir_sgn * vfield[0, row_int, col_int] # x
-        vfield_comp_row = dir_sgn * vfield[1, row_int, col_int] # y
+        # ## nearest neighbor interpolation
+        # vfield_comp_col = dir_sgn * vfield[0, row_int, col_int]  # x
+        # vfield_comp_row = dir_sgn * vfield[1, row_int, col_int]  # y
+        ## bilinear interpolation (negligble performance hit compared to nearest neighbor)
+        vfield_comp_col, vfield_comp_row = interpolate_bilinear(vfield, row_float, col_float)
+        vfield_comp_col *= dir_sgn
+        vfield_comp_row *= dir_sgn
         ## skip if the field magnitude is zero: advection has halted
         if abs(vfield_comp_row) == 0.0 and abs(vfield_comp_col) == 0.0:
             break
@@ -118,8 +151,7 @@ def _compute_lic(
     bool_periodic_BCs: bool,
 ) -> np.ndarray:
     """
-    Computes the Line Integral Convolution (LIC) over the entire domain by advecting
-    streamlines from each pixel in both forward and backward directions along the vector field.
+    Computes the Line Integral Convolution (LIC) over the entire domain by advecting streamlines from each pixel in both forward and backward directions along the vector field.
     """
     for row in prange(num_rows):
         for col in range(num_cols):
@@ -157,7 +189,7 @@ def compute_lic(
     streamlength: int = None,
     seed_sfield: int = 42,
     bool_periodic_BCs: bool = True,
-):
+) -> np.ndarray:
     """
     Computes the Line Integral Convolution (LIC) for a given vector field.
 
@@ -221,12 +253,12 @@ def compute_lic_with_postprocessing(
     streamlength: int = None,
     seed_sfield: int = 42,
     bool_periodic_BCs: bool = True,
-    num_iterations: int = 1,
-    num_repetitions: int = 1,
+    num_iterations: int = 3,
+    num_repetitions: int = 3,
     bool_filter: bool = True,
     filter_sigma: float = 3.0,
     bool_equalize: bool = True,
-):
+) -> np.ndarray:
     """
     Iteratively computes the Line Integral Convolutions (LICs) for a given vector field with optional postprocessing steps (i.e., filtering and intensity binning). See the `compute_lic` function for more details on the core LIC computation.
 
@@ -247,10 +279,10 @@ def compute_lic_with_postprocessing(
     bool_periodic_BCs : bool, optional, default=True
         If True, periodic boundary conditions are applied; otherwise, uses open boundary conditions.
 
-    num_iterations : int, optional, default=1
+    num_iterations : int, optional, default=3
         Number of times to repeat the LIC computation.
 
-    num_repetitions : int, optional, default=1
+    num_repetitions : int, optional, default=3
         Number of times to repeat the entire routine: LIC + highpass filter.
 
     bool_filter : bool, optional, default=True
