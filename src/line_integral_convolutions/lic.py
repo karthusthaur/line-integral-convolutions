@@ -66,29 +66,29 @@ def advect_streamline(
     for step in range(streamlength):
         row_int = int(np.floor(row_float))
         col_int = int(np.floor(col_float))
-        vel_col = dir_sgn * vfield[0, row_int, col_int]
-        vel_row = dir_sgn * vfield[1, row_int, col_int]
+        vec_comp_col = dir_sgn * vfield[0, row_int, col_int]
+        vec_comp_row = dir_sgn * vfield[1, row_int, col_int]
         ## skip if the field magnitude is zero: advection has halted
-        if abs(vel_row) == 0.0 and abs(vel_col) == 0.0:
+        if abs(vec_comp_row) == 0.0 and abs(vec_comp_col) == 0.0:
             break
         ## compute how long the streamline advects before it leaves the current cell region (divided by cell-centers)
-        if vel_row > 0.0:
-            delta_time_row = (np.floor(row_float) + 1 - row_float) / vel_row
-        elif vel_row < 0.0:
-            delta_time_row = (np.ceil(row_float) - 1 - row_float) / vel_row
+        if vec_comp_row > 0.0:
+            delta_time_row = (np.floor(row_float) + 1 - row_float) / vec_comp_row
+        elif vec_comp_row < 0.0:
+            delta_time_row = (np.ceil(row_float) - 1 - row_float) / vec_comp_row
         else:
             delta_time_row = np.inf
-        if vel_col > 0.0:
-            delta_time_col = (np.floor(col_float) + 1 - col_float) / vel_col
-        elif vel_col < 0.0:
-            delta_time_col = (np.ceil(col_float) - 1 - col_float) / vel_col
+        if vec_comp_col > 0.0:
+            delta_time_col = (np.floor(col_float) + 1 - col_float) / vec_comp_col
+        elif vec_comp_col < 0.0:
+            delta_time_col = (np.ceil(col_float) - 1 - col_float) / vec_comp_col
         else:
             delta_time_col = np.inf
         ## equivelant to a CFL condition
         time_step = min(delta_time_col, delta_time_row)
         ## advect the streamline to the next cell region
-        col_float += vel_col * time_step
-        row_float += vel_row * time_step
+        col_float += vec_comp_col * time_step
+        row_float += vec_comp_row * time_step
         if bool_periodic_BCs:
             row_float = (row_float + num_rows) % num_rows
             col_float = (col_float + num_cols) % num_cols
