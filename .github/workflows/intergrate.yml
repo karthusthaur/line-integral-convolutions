@@ -1,0 +1,20 @@
+name: CD 
+on: 
+  push:
+    branches:
+      - master 
+    paths:
+      - README.md 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Python 
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.10'
+    - name: session
+      uses: lhotari/action-upterm@v1 
