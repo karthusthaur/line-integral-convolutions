@@ -1,0 +1,20 @@
+name: CI
+on: 
+  push:
+    paths:
+      - requirements.txt 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Python 
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: |
+        pip install setuptools wheel
+        python src/testq.py 
