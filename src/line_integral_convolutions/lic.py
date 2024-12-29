@@ -102,7 +102,11 @@ def advect_streamline(
         # vfield_comp_col = dir_sgn * vfield[0, row_int, col_int]  # x
         # vfield_comp_row = dir_sgn * vfield[1, row_int, col_int]  # y
         ## bilinear interpolation (negligble performance hit compared to nearest neighbor)
-        vfield_comp_col, vfield_comp_row = interpolate_bilinear(vfield, row_float, col_float)
+        vfield_comp_col, vfield_comp_row = interpolate_bilinear(
+            vfield=vfield,
+            row=row_float,
+            col=col_float,
+        )
         vfield_comp_col *= dir_sgn
         vfield_comp_row *= dir_sgn
         ## skip if the field magnitude is zero: advection has halted
