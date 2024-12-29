@@ -36,6 +36,10 @@ def taper_pixel_contribution(streamlength: int, step_index: int) -> float:
     """
     return 0.5 * (1 + np.cos(np.pi * step_index / streamlength))
 
+@njit
+def interpolate_nearest_neighbor(vfield, row, col):
+    
+
 
 @njit
 def advect_streamline(
@@ -66,8 +70,8 @@ def advect_streamline(
     for step in range(streamlength):
         row_int = int(np.floor(row_float))
         col_int = int(np.floor(col_float))
-        vfield_comp_col = dir_sgn * vfield[0, row_int, col_int]
-        vfield_comp_row = dir_sgn * vfield[1, row_int, col_int]
+        vfield_comp_col = dir_sgn * vfield[0, row_int, col_int] # x
+        vfield_comp_row = dir_sgn * vfield[1, row_int, col_int] # y
         ## skip if the field magnitude is zero: advection has halted
         if abs(vfield_comp_row) == 0.0 and abs(vfield_comp_col) == 0.0:
             break
@@ -164,7 +168,7 @@ def compute_lic(
     Parameters:
     -----------
     vfield : np.ndarray
-        3D array storing a 2D vector field with shape (num_vcomps=2, num_rows, num_cols). The first dimension holds the vector components, and the remaining two dimensions define the domain size. For 3D fields, provide a 2D slice.
+        3D array storing a 2D vector field with shape (num_vcomps=2, num_rows, num_cols). The first dimension holds the vector components (x,y), and the remaining two dimensions define the domain size. For 3D fields, provide a 2D slice.
 
     sfield_in : np.ndarray, optional, default=None
         2D scalar field to be used for the LIC. If None, a random scalar field is generated.
