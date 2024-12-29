@@ -15,6 +15,7 @@ from line_integral_convolutions import fields, lic, utils
 ## ###############################################################
 ## MAIN PROGRAM
 ## ###############################################################
+@utils.time_func
 def main(
     size: int,
     func_vfield,
@@ -26,15 +27,14 @@ def main(
     bool_debug: bool = False,
 ):
     print("Started running demo script...")
-    ## create figure canvas
     fig, _ = plt.subplots(figsize=(6, 6))
-    ## define domain
     print("Initialising quantities...")
     dict_field = func_vfield(size)
     vfield = dict_field["vfield"]
     streamlength = dict_field["streamlength"]
     bounds_rows = dict_field["bounds_rows"]
     bounds_cols = dict_field["bounds_cols"]
+    vfield_name = dict_field["name"]
     ## apply the LIC a few times: equivelant to painting over with a few brush strokes
     print("Computing LIC...")
     sfield = lic.compute_lic_with_postprocessing(
@@ -57,7 +57,7 @@ def main(
     )
     ## save and close the figure
     print("Saving figure...")
-    fig_name = f"example_lic.png"
+    fig_name = f"example_lic_{vfield_name}.png"
     fig.savefig(fig_name, dpi=300, bbox_inches="tight")
     plt.close(fig)
     print("Saved:", fig_name)
@@ -69,11 +69,11 @@ def main(
 if __name__ == "__main__":
     main(
         size=500,
-        func_vfield=fields.vfield_swirls,
+        func_vfield=fields.vfield_swirls,  # pass function reference (not a function call): without brackets
         num_iterations=3,
         num_repetitions=3,
         bool_filter=True,
-        filter_sigma=3.0,
+        filter_sigma=3.0,  # lower values produce thinner LIC tubes
         bool_equalize=True,
         bool_debug=False,
     )
