@@ -7,8 +7,8 @@ Here is an example of the LIC code applied to two different vector fields:
 - Right: Gaussian random vector field
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="./examples/example_lic_1.png" width="49%" />
-  <img src="./examples/example_lic_2.png" width="49%" />
+  <img src="./gallary/lic_lotka_volterra.png" width="49%" />
+  <img src="./gallary/lic_gaussian_random.png" width="49%" />
 </div>
 
 
@@ -67,20 +67,22 @@ Special thanks to Dr. James Beattie ([@AstroJames](https://github.com/AstroJames
 ## File structure
 
 ```bash
-line-integral-convolutions/            # Root project directory
-├── src/                               # Core source code for the package
-│   └── line_integral_convolutions/    # Python package containing the main functionality
+line-integral-convolutions/            # Root (project) directory
+├── src/
+│   └── line_integral_convolutions/    # Python package
 │       ├── __init__.py                # Initialization file for the package
-│       ├── fields.py                  # Code for generating vector fields
-│       ├── lic.py                     # Main functionality for Line Integral Convolution (LIC)
-│       ├── utils.py                   # Utility functions used across the project
-│       └── visualization.py           # Code for plotting and visualizing LIC results
-├── examples/                          # Example scripts demonstrating how to use the package
+│       ├── fields.py                  # Example vector fields
+│       ├── lic.py                     # Core of Line Integral Convolution (LIC) package
+│       ├── utils.py                   # Utility functions
+│       └── visualization.py           # Code for plotting LIC
+├── examples/
 │   └── example_lic.py                 # An example script showing how to run LIC computations
-├── requirements.txt                   # Lists the dependencies required to run the project
-├── setup.py                           # Setup script to install and package the project
-├── LICENSE                            # License file describing the terms of use for the project
-└── README.md                          # Project documentation file (this file)
+├── gallary/
+│   └── example high-resolution LICs
+├── requirements.txt                   # Lists of dependencies required to run the project
+├── setup.py                           # Script to install and package-up the project
+├── LICENSE                            # Terms of use for the project
+└── README.md                          # This file
 ```
 
 ## License
