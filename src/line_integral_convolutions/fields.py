@@ -25,6 +25,7 @@ def vfield_lotka_volterra(size: int):
     vcomp_cols = y_growth * mg_y * mg_x / (1 + mg_x) - y_decay * mg_y
     vfield = np.array([vcomp_rows, vcomp_cols])
     return {
+        "name": "lotka_volterra",
         "vfield": vfield,
         "streamlength": size // 4,
         "num_rows": size,
@@ -44,6 +45,7 @@ def vfield_flowers(size: int):
     vcomp_cols = np.cos(mg_y / 2)
     vfield = np.array([vcomp_rows, vcomp_cols])
     return {
+        "name": "flowers",
         "vfield": vfield,
         "streamlength": size // 4,
         "num_rows": size,
@@ -63,6 +65,7 @@ def vfield_circles(size: int):
     vcomp_cols = np.cos(mg_x / 2)
     vfield = np.array([vcomp_rows, vcomp_cols])
     return {
+        "name": "circles",
         "vfield": vfield,
         "streamlength": size // 4,
         "num_rows": size,
@@ -82,6 +85,7 @@ def vfield_swirls(size: int):
     vcomp_cols = np.cos((mg_x - mg_y) / 3)
     vfield = np.array([vcomp_rows, vcomp_cols])
     return {
+        "name": "swirls",
         "vfield": vfield,
         "streamlength": size // 3,
         "num_rows": size,
