@@ -1,8 +1,13 @@
+## virtual environment directory
 venv/
 
+## build artifacts and metadata
+dist/
 line_integral_convolutions.egg-info/
 
+## extraneous files produced on Mac
 .DS_Store
 __pycache__/
 
-*.png
+## plots saved by the demo script
+examples/*.png
