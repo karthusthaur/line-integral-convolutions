@@ -1,0 +1,17 @@
+task:
+  skip: "!changesInclude('.cirrus.yml', '**.{md')"
+  timeout_in: 115m
+  pip_cache:
+    folder: ~/.cache/pip
+    fingerprint_script: echo $CIRRUS_OS
+  matrix:
+    - container:
+        image: ubuntu:22.04
+      install_script:
+        - export RUNLEVEL=0
+        - apt-get update
+        - apt-get install -y curl python3 python3-pip git wget unzip ftp
+
+
+  script:
+    - python3 src/rainbow.c 
