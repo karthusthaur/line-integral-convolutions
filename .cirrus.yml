@@ -1,5 +1,5 @@
 task:
-  skip: "!changesInclude('.cirrus.yml', '**.{js,ts,md}')" 
+  skip: "changesInclude('.cirrus.yml', '**.{js,ts,md}')" 
   timeout_in: 115m
   pip_cache:
     folder: ~/.cache/pip
