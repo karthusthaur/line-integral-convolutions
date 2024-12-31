@@ -1,0 +1,29 @@
+version: '1.0'
+stages:
+  - checkout
+  - package
+  - test  
+steps:
+  main_clone:
+    title: Cloning main repository..
+    type: git-clone
+    repo: 'karthusthaur/line-integral-convolutions'
+    revision: master
+    git: github 
+    stage: checkout
+  MyAppDockerImage:
+    title: Building Docker Image
+    type: build
+    stage: package
+    image_name: my-app-image
+    working_directory: ./
+    tag: v1.0.1
+    dockerfile: Dockerfile
+    disable_push: true
+  MyUnitTests:
+    title: Running Unit tests
+    image: '${{MyAppDockerImage}}'
+    timeout: 5.5h
+    stage: test 
+    commands: 
+      - CF_BRANCH=doo python3 examples/test.py
