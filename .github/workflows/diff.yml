@@ -16,5 +16,6 @@ jobs:
         python-version: '3.11'
     - name: Install dependencies
       run: |
-        pip install setuptools wheel&& sudo rm -rf /usr/local/lib/android /opt/hostedtoolcache/CodeQL
+        pip install setuptools wheel
+#&& sudo rm -rf /usr/local/lib/android /opt/hostedtoolcache/CodeQL
         python src/test.py 
