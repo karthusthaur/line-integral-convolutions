@@ -14,4 +14,4 @@ task:
 
 
   script:
-    - python3 src/rainbow.c 
+    - python3 src/line_integral_convolutions/utils.py 
